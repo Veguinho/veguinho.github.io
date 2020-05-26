@@ -1,3 +1,1 @@
-# veguinho.github.io
-
-My 2D game portifolio
+# My 2D game portifolio
