@@ -1,8 +1,9 @@
 
-import * as THREE from 'https://unpkg.com/three@0.122.0/build/three.module.js';
-import {MTLLoader} from 'https://unpkg.com/three@0.122.0/examples/jsm/loaders/MTLLoader.js';
-import {OBJLoader} from 'https://unpkg.com/three@0.122.0/examples/jsm/loaders/OBJLoader.js';
-import {PointerLockControls} from 'https://unpkg.com/three@0.122.0/examples/jsm/controls/PointerLockControls.js';
+import * as THREE from "./node_modules/three/build/three.module.js";
+import {MTLLoader} from "./node_modules/three/examples/jsm/loaders/MTLLoader.js";
+import {OBJLoader} from "./node_modules/three/examples/jsm/loaders/OBJLoader.js";
+import {PointerLockControls} from './node_modules/three/examples/jsm/controls/PointerLockControls.js';
+
 //Code derived from https://threejs.org/examples/#misc_controls_pointerlock
 //Original github page: https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_pointerlock.html
 let camera, scene, renderer, controls;
@@ -267,6 +268,7 @@ function spawn_target(){
 		random_n = -20;
 		speed = -speed;
 	}
+
 	var cylinder = new THREE.Mesh( 
 		new THREE.CylinderGeometry(5, 5, 1, 32), 
 		new THREE.MeshBasicMaterial({color: 0xffff00})
@@ -287,15 +289,16 @@ function spawn_target(){
 }
 
 function shoot(){
+	var bmaterial = new THREE.MeshBasicMaterial({color:0x000000});
+	bmaterial.side = THREE.DoubleSide;
 	var bullet = new THREE.Mesh(
 		new THREE.SphereGeometry(10, 10, 10),
-		new THREE.MeshPhongMaterial({color:0xfff176})
+		bmaterial
 	);
 	bullet.scale.set(0.05,0.05,0.05);
 	meshes["gun"].getWorldPosition(bullet.position);
 	bullet.position.y+=0.6;
 	bullet.quaternion.copy(camera.quaternion);
-	bullet.castShadow = true;
 	scene.add(bullet);
 	bullets.push(bullet);
 	ammo -= 1;
@@ -311,14 +314,13 @@ function checkCollision(target){
 	for (var vertexIndex = 0; vertexIndex < target.geometry.vertices.length; vertexIndex++)
 	{		
 		var localVertex = target.geometry.vertices[vertexIndex].clone();
-		var globalVertex = localVertex.applyMatrix4( target.matrix );
-		var directionVector = globalVertex.sub( target.position );
+		var globalVertex = localVertex.applyMatrix4(target.matrix);
+		var directionVector = globalVertex.sub(target.position);
 		
 		var ray = new THREE.Raycaster(target.position, directionVector.clone().normalize());
 		var collisionResults = ray.intersectObjects(bullets, true);
 		if(collisionResults.length > 0 && collisionResults[0].distance < 5){
-			bullets.splice(bullets.indexOf(collisionResults[0].object), 1);
-			scene.remove(collisionResults[0].object);
+			console.log(collisionResults);
 			points += 1;
 			ammo += 1;
 			return target;
@@ -377,7 +379,7 @@ function animate() {
 				bullets[b].position.y > MAP_ENDS || bullets[b].position.y < 0
 			){
 				scene.remove(bullets[b]);
-				bullets.splice(b,b+1);
+				bullets.splice(b,1);
 				if(bullets.length==0 && ammo==0){
 					gameover.style.display = 'block';
 					setTimeout(function(){location.reload();}, 3000);
@@ -393,7 +395,7 @@ function animate() {
 				targets[t][0].position.y > MAP_ENDS || targets[t][0].position.y < 0 || local_target
 			){
 				scene.remove(targets[t][0]);
-				targets.splice(t,t+1);
+				targets.splice(t,1);
 			}
 		}
 
