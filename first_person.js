@@ -185,12 +185,12 @@ function init() {
 	scene.add(meshFloor);
 
 	// Model/material loading!
-	const objLoader = new OBJLoader(loadingManager);
-	const mtlLoader = new MTLLoader(loadingManager);
-	mtlLoader.load(models['gun'].mtl, function(materials){
+	const objLoader1 = new OBJLoader(loadingManager);
+	const mtlLoader1 = new MTLLoader(loadingManager);
+	mtlLoader1.load(models['gun'].mtl, function(materials){
 		materials.preload();
-		objLoader.setMaterials(materials);
-		objLoader.load(models['gun'].obj, function(meshTMP){
+		objLoader1.setMaterials(materials);
+		objLoader1.load(models['gun'].obj, function(meshTMP){
 			meshTMP.traverse(function(node){
 				if( node instanceof THREE.Mesh ){
 					node.castShadow = true;
@@ -201,11 +201,12 @@ function init() {
 		});
 	});
 
-
-	mtlLoader.load(models['tree'].mtl, function(materials){
+	const objLoader2 = new OBJLoader(loadingManager);
+	const mtlLoader2 = new MTLLoader(loadingManager);
+	mtlLoader2.load(models['tree'].mtl, function(materials){
 		materials.preload();
-		objLoader.setMaterials(materials);
-		objLoader.load(models['tree'].obj, function(meshTMP){
+		objLoader2.setMaterials(materials);
+		objLoader2.load(models['tree'].obj, function(meshTMP){
 			meshTMP.traverse(function(node){
 				if( node instanceof THREE.Mesh ){
 					node.castShadow = true;
@@ -289,7 +290,9 @@ function spawn_target(){
 }
 
 function shoot(){
-	var bmaterial = new THREE.MeshBasicMaterial({color:0x000000});
+	var bmaterial = new THREE.MeshPhongMaterial({color:0x808080});
+	bmaterial.shininess = 80.0;
+	bmaterial.specular = new THREE.Color(0xffffff);
 	bmaterial.side = THREE.DoubleSide;
 	var bullet = new THREE.Mesh(
 		new THREE.SphereGeometry(10, 10, 10),
