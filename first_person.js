@@ -1,8 +1,8 @@
 
-import * as THREE from "./build/three.module.js";
-import {MTLLoader} from "./examples/jsm/loaders/MTLLoader.js";
-import {OBJLoader} from "./examples/jsm/loaders/OBJLoader.js";
-import {PointerLockControls} from './examples/jsm/controls/PointerLockControls.js';
+import * as THREE from 'https://unpkg.com/three@<VERSION>/build/three.module.js';
+import {MTLLoader} from "https://unpkg.com/three@<VERSION>/examples/jsm/loaders/MTLLoader.js";
+import {OBJLoader} from "https://unpkg.com/three@<VERSION>/examples/jsm/loaders/OBJLoader.js";
+import {PointerLockControls} from 'https://unpkg.com/three@<VERSION>/examples/jsm/controls/PointerLockControls.js';
 
 //Code derived from https://threejs.org/examples/#misc_controls_pointerlock
 //Original github page: https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_pointerlock.html
