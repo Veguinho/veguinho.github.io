@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "three": "^0.122.0",
+    "three": "^0.125.0",
     "three-mtl-loader": "^1.0.2"
   }
 }
